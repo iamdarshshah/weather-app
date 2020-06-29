@@ -1,6 +1,7 @@
-const request = require("request");
 const dotenv = require("dotenv");
 const yargs = require("yargs");
+
+const geocode = require("./geocode/geocode");
 dotenv.config();
 
 const argv = yargs
@@ -15,22 +16,4 @@ const argv = yargs
   .help()
   .alias("help", "h").argv;
 
-var encodedAddress = encodeURIComponent(argv.address);
-
-request(
-  {
-    url: `https://maps.googleapis.com/maps/api/geocode/json?key=${process.env.API_KEY}&address=${encodedAddress}`,
-    json: true,
-  },
-  (error, response, body) => {
-    if (error) {
-      console.log("Unable to connect to Google servers.");
-    } else if (body.status === "ZERO_RESULTS") {
-      console.log("Unable to find that address.");
-    } else if (body.status === "OK") {
-      console.log(`Address: ${body.results[0].formatted_address}`);
-      console.log(`Address: ${body.results[0].geometry.location.lat}`);
-      console.log(`Address: ${body.results[0].geometry.location.lng}`);
-    }
-  }
-);
+geocode.geocodeAddress(argv.address);
