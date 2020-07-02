@@ -12,3 +12,17 @@ const argv = yargs
   })
   .help()
   .alias("help", "h").argv;
+
+var encodedAddress = encodeURIComponent(argv.address);
+var geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?key=${process.env.API_KEY}&address=${encodedAddress}`;
+
+axios
+  .get(geocodeURL)
+  .then((res) => {
+    console.log(res.data);
+  })
+  .catch((e) => {
+    if (e.code === "ENOTFOUND") {
+      console.log("Unable to connect to API servers.");
+    }
+  });
