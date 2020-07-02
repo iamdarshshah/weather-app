@@ -14,7 +14,7 @@ asyncAdd(9, 7)
   .then(
     (response) => {
       console.log(response);
-      return asyncAdd(response, 10);
+      return asyncAdd(response, "10");
     },
     (errorMessage) => {
       console.log(errorMessage);
