@@ -10,14 +10,24 @@ var asyncAdd = (a, b) => {
   });
 };
 
-asyncAdd(9, 7).then(
-  (response) => {
-    console.log(response);
-  },
-  (errorMessage) => {
-    console.log(errorMessage);
-  }
-);
+asyncAdd(9, 7)
+  .then(
+    (response) => {
+      console.log(response);
+      return asyncAdd(response, 10);
+    },
+    (errorMessage) => {
+      console.log(errorMessage);
+    }
+  )
+  .then(
+    (res) => {
+      console.log("Chaining promises: ", res);
+    },
+    (errorMessage) => {
+      console.log(errorMessage);
+    }
+  );
 
 // var somePromise = new Promise((resolve, reject) => {
 //   setTimeout(() => {
