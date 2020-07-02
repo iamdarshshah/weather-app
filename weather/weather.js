@@ -1,4 +1,7 @@
+const dotenv = require("dotenv");
 const request = require("request");
+
+dotenv.config();
 
 var getWeather = (lat, lng, callback) => {
   request(
