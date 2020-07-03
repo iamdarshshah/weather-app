@@ -19,10 +19,15 @@ var geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?key=${proces
 axios
   .get(geocodeURL)
   .then((res) => {
+    if (res.data.status === "ZERO_RESULTS") {
+      throw new Error("Unable to find the Address.");
+    }
     console.log(res.data);
   })
   .catch((e) => {
     if (e.code === "ENOTFOUND") {
       console.log("Unable to connect to API servers.");
+    } else {
+      console.log(e.message);
     }
   });
