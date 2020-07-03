@@ -22,7 +22,18 @@ axios
     if (res.data.status === "ZERO_RESULTS") {
       throw new Error("Unable to find the Address.");
     }
-    console.log(res.data);
+    var lat = res.data.results[0].geometry.lat;
+    var lng = res.data.results[0].geometry.lng;
+    var weatherURL = `https://api.forecast.io/forecast/${process.env.API_KEY_FORECAST}/${lat},${lng}`;
+    console.log(res.data.results[0].formatted_address);
+    return axios.get(weatherURL);
+  })
+  .then((res) => {
+    var temperature = res.data.currently.temperature;
+    var apparentTemperature = res.data.currently.apparentTemperature;
+    console.log(
+      `It's currently ${temperature}. It feels like ${apparentTemperature}.`
+    );
   })
   .catch((e) => {
     if (e.code === "ENOTFOUND") {
